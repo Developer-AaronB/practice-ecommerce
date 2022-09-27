@@ -1,15 +1,16 @@
-import { createAuth } from "@keystone-next/auth";
-import { config, createSchema } from "@keystone-next/keystone/schema";
+import { createAuth } from '@keystone-next/auth';
+import { config, createSchema } from '@keystone-next/keystone/schema';
 import {
   withItemData,
   statelessSessions,
-} from "@keystone-next/keystone/session";
-import { User } from "./schemas/User";
-import { Product } from "./schemas/Products";
-import "dotenv/config";
+} from '@keystone-next/keystone/session';
+import { ProductImage } from './schemas/ProductImage';
+import { User } from './schemas/User';
+import { Product } from './schemas/Products';
+import 'dotenv/config';
 
 const databaseURL =
-  process.env.DATABASE_URL || "mongodb://localhost/keystone-sick-fits-tutorial";
+  process.env.DATABASE_URL || 'mongodb://localhost/keystone-sick-fits-tutorial';
 
 const sessionConfig = {
   maxAge: 60 * 60 * 24 * 360, // How long they stay signed in?
@@ -17,11 +18,11 @@ const sessionConfig = {
 };
 
 const { withAuth } = createAuth({
-  listKey: "User",
-  identityField: "email",
-  secretField: "password",
+  listKey: 'User',
+  identityField: 'email',
+  secretField: 'password',
   initFirstItem: {
-    fields: ["name", "email", "password"],
+    fields: ['name', 'email', 'password'],
     // Todo: add inital roles here
   },
 });
@@ -36,7 +37,7 @@ export default withAuth(
       },
     },
     db: {
-      adapter: "mongoose",
+      adapter: 'mongoose',
       url: databaseURL,
       // Todo: add data seeding here
     },
@@ -44,6 +45,7 @@ export default withAuth(
       // Schema items go in here
       User,
       Product,
+      ProductImage,
     }),
     ui: {
       // Show the UI only for people who pass this test
@@ -54,7 +56,7 @@ export default withAuth(
     // Todo: add session values here
     session: withItemData(statelessSessions(sessionConfig), {
       // GraphQL Query
-      User: "id",
+      User: 'id',
     }),
   })
 );
